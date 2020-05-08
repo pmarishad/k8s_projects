@@ -1,0 +1,43 @@
+Kubernetes Lab Setup
+====================
+sudo apt install openssh-server
+
+HostName	-	IP Address
+
+kubemaster	-	192.168.1.103
+kubenode1	-	192.168.1.104
+kubenode2	-	192.168.1.105
+
+
+/etc/network/interfaces
+# Configure enp0s8 interface
+auto enp0s8
+iface enp0s8 inet static
+        address 192.168.56.2
+        netmask 255.255.255.0
+
+
+sudo kubeadm init --pod-network-cidr=192.168.0.0/16 --apiserver-advertise-address=192.168.56.2
+
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+kubectl apply -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml
+
+kubectl get pods --all-namespaces
+
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 192.168.56.2:6443 --token k6f87m.clud02ogbu6wfzrn \
+    --discovery-token-ca-cert-hash sha256:11cf89742c1b72e01c5b0f2d8342a90c78038939eb925394d23be13efb81e99f
+

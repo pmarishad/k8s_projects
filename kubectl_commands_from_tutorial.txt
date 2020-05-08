@@ -1,0 +1,61 @@
+PODs
+====
+kubectl run hello-minikube
+kubectl cluster-info  {to get the cluster info}
+kubectl get nodes  {to get Nodes info}
+kubectl get nodes -o wide (nodes info + host OS info)
+kubectl run nginx --image=nginx
+
+kubectl get pods {to see the list of PODs}
+kubectl describe pod <pod-name>-<id>
+kubectl delete pod <pod-name>  {to delete specific pod}
+
+kubectl run --generator=run-pod/v1 nginx --image=nginx  {Create POD using --generator}
+kubectl run nginx --image=nginx --restart=Never  {Create POD using --restart=Never}
+
+kubectl create -f <def_file-name>  {to create pod from pod-definition.yml file}
+kubectl apply -f <def_file-name>  {to apply updates to pod-definition.yml file}
+
+kubectl create deployment nginx --image=nginx  {Create deployment}
+
+ReplicaSet
+==========
+kubectl create -f replicaset-definition.yml
+kubectl get replicaset
+kubectl describe replicaset
+kubectl replace -f replicaset-definition.yml
+kubectl scale --replicas=3 -f replicaset-definition.yml
+kubectl edit replicaset <replicaset-name>
+kubectl delete replicaset
+kubectl get all  {to get all object}
+
+Deployment
+==========
+kubectl create -f deployment-definition.yml
+kubectl create -f deployment-definition.yml --record
+
+kubectl get deployments
+kubectl delete deployment
+kubectl describe deployment
+kubectl apply -f deployment-definition.yml
+kubectl set image deployment/myapp-deployment nginx=nginx:1.9.1
+Rollout Commands
+================
+kubectl rollout status deployment/myapp-deployment
+kubectl rollout history deployment/myapp-deployment
+kubectl rollout undo deployment/myapp-deployment
+kubectl run nginx --image=nginx  {not using definition file}
+
+Services
+=========
+kubectl create -f service-definition.yml
+kubectl get services
+ 
+
+Docker
+======
+docker run python-app
+docker run helper -link app1
+
+docker run python-app
+docker run helper -link app2
